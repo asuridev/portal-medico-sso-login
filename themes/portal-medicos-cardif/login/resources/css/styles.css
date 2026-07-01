@@ -1,0 +1,350 @@
+/* ==========================================================================
+   Portal Médicos Cardif - Tema de login Keycloak
+   Paleta y layout basados en design/full-page.jpg
+   ========================================================================== */
+
+:root {
+    --brand-green: #009640;        /* verde corporativo BNP Paribas Cardif */
+    --brand-green-dark: #007a34;   /* hover del boton */
+    --brand-lime: #97c11f;         /* banner promocional */
+    --brand-grey: #575451;         /* trazo icono / texto oscuro */
+    --brand-subtitle: #6e6e6e;
+    --brand-border: #cccccc;
+    --brand-bg-footer: #f2f2f2;
+
+    --font-body: "Open Sans", Arial, Helvetica, sans-serif;
+    --font-head: "Oswald", "Arial Narrow", Arial, sans-serif;
+    --radius: 8px;
+}
+
+/* Reset ligero sobre el tema base ------------------------------------------ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+.pmc-body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--brand-grey);
+    background: #fff;
+}
+
+.pmc-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+img { max-width: 100%; }
+
+a.pmc-link { color: var(--brand-green); text-decoration: none; }
+a.pmc-link:hover { text-decoration: underline; }
+
+/* Barra superior con reloj -------------------------------------------------- */
+.pmc-topbar {
+    background: var(--brand-green);
+    color: #fff;
+    padding: 10px clamp(16px, 4vw, 48px);
+    /* Fuente condensada como en el diseño (misma familia que el banner) */
+    font-family: var(--font-head);
+    font-size: 14.5px;      /* cap-height ~15px, igual al diseño */
+    line-height: 16px;      /* barra ~36px de alto como el diseño */
+    font-weight: 400;
+    letter-spacing: .5px;
+    /* Sin text-transform: el JS entrega 'VIERNES' en mayúscula y 'a.m.' en minúscula */
+}
+
+/* Header -------------------------------------------------------------------- */
+.pmc-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 12px clamp(16px, 4vw, 48px);
+    background: #fff;
+    border-bottom: 1px solid #ececec;
+}
+.pmc-header__brand { display: flex; align-items: center; gap: 16px; }
+.pmc-header__logo { height: 40px; width: auto; display: block; }
+.pmc-header__divider { width: 1px; height: 34px; background: #d5d5d5; }
+.pmc-header__portal {
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #9a9a9a;
+}
+.pmc-header__tagline {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1d1d1b;
+}
+.pmc-locale select {
+    border: 1px solid var(--brand-border);
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--brand-grey);
+    background: #fff;
+}
+
+/* Cuerpo -------------------------------------------------------------------- */
+.pmc-main {
+    position: relative;
+    flex: 1 0 auto;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 48px clamp(16px, 5vw, 80px);
+    background: url("../img/background.jpg") center center / cover no-repeat;
+}
+
+/* Banner promocional (izquierda) */
+.pmc-banner {
+    position: absolute;
+    left: 0;
+    /* Posición del diseño: banner en la franja inferior-izquierda, ~14.8% del alto sobre el footer */
+    bottom: 15%;
+    max-width: 530px;
+    padding: 32px clamp(24px, 4vw, 56px);
+    background: var(--brand-lime);
+    color: #fff;
+}
+.pmc-banner__title {
+    margin: 0 0 12px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.05;
+    font-size: clamp(28px, 3.4vw, 44px);
+    letter-spacing: .5px;
+}
+.pmc-banner__text {
+    margin: 0;
+    font-size: clamp(15px, 1.4vw, 19px);
+    line-height: 1.35;
+    max-width: 26ch;
+}
+
+/* Tarjeta de login (derecha) */
+.pmc-card {
+    width: 420px;
+    max-width: 100%;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .18);
+    padding: 40px clamp(24px, 3vw, 44px);
+    text-align: center;
+}
+.pmc-card__avatar {
+    width: 92px;
+    height: 92px;
+    margin: 0 auto 18px;
+    border: 2px solid #e3e3e3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pmc-card__avatar img { width: 44px; height: 48px; }
+.pmc-card__title {
+    margin: 0 0 14px;
+    color: var(--brand-green);
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: clamp(24px, 2.6vw, 30px);
+}
+.pmc-card__subtitle {
+    margin: 0 auto 24px;
+    max-width: 30ch;
+    color: var(--brand-subtitle);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Formulario ---------------------------------------------------------------- */
+.pmc-form { text-align: left; }
+.pmc-field { margin-bottom: 18px; }
+.pmc-field__label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--brand-green);
+    font-size: 14px;
+    font-weight: 600;
+}
+.pmc-field__input {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid var(--brand-border);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #333;
+    background: #fff;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pmc-field__input::placeholder { color: #b0b0b0; }
+.pmc-field__input:focus {
+    outline: none;
+    border-color: var(--brand-green);
+    box-shadow: 0 0 0 2px rgba(0, 150, 64, .15);
+}
+.pmc-field__input[aria-invalid="true"] { border-color: #c9302c; }
+
+.pmc-field__password { position: relative; }
+.pmc-field__password .pmc-field__input { padding-right: 42px; }
+.pmc-field__toggle {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--brand-green);
+    cursor: pointer;
+}
+.pmc-field__error {
+    display: block;
+    margin: -8px 0 14px;
+    color: #c9302c;
+    font-size: 13px;
+}
+
+.pmc-remember { margin-bottom: 14px; font-size: 14px; }
+.pmc-remember label { display: inline-flex; align-items: center; gap: 8px; }
+.pmc-forgot { margin-bottom: 18px; font-size: 14px; }
+
+.pmc-form__buttons { text-align: center; margin-top: 8px; }
+.pmc-btn {
+    display: inline-block;
+    min-width: 150px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 0;
+    background: var(--brand-green);
+    color: #fff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+.pmc-btn:hover { background: var(--brand-green-dark); }
+.pmc-btn:disabled { opacity: .6; cursor: default; }
+
+/* Alertas de Keycloak ------------------------------------------------------- */
+.pmc-alert {
+    margin: 0 0 18px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: left;
+}
+.pmc-alert--error   { background: #fdecea; color: #b3261e; border: 1px solid #f5c6c2; }
+.pmc-alert--warning { background: #fff8e1; color: #8a6d00; border: 1px solid #ffe6a0; }
+.pmc-alert--success { background: #eafaf0; color: #1e7d43; border: 1px solid #b9e6c8; }
+.pmc-alert--info    { background: #eef6ff; color: #1a5fb4; border: 1px solid #c3ddff; }
+
+.pmc-card__info { margin-top: 18px; font-size: 14px; text-align: center; }
+
+/* Footer -------------------------------------------------------------------- */
+.pmc-footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    /* Márgenes/posiciones tomadas del diseño (1440): logo x=100, copyright termina en x=1332 */
+    padding: 14px 108px 14px 100px;
+    background: var(--brand-bg-footer);
+    border-top: 2px solid var(--brand-green);
+    font-size: 12px;
+    color: #333;
+}
+/* Separación logo -> tagline del diseño (228 -> 344 = 116px) */
+.pmc-footer__brand { display: flex; align-items: center; gap: 116px; }
+.pmc-footer__logo { height: 26px; width: auto; }
+.pmc-footer__tagline { font-size: 15px; font-weight: 700; color: #1d1d1b; }
+.pmc-footer__copyright { font-weight: 700; color: #1d1d1b; }
+
+/* ==========================================================================
+   Responsivo
+   ========================================================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .pmc-header__tagline { font-size: 14px; }
+    .pmc-banner { max-width: 60%; bottom: 8%; }
+    .pmc-card { width: 380px; }
+}
+
+/* Tablet estrecho / landscape phone: apilar sin fondo a sangre */
+@media (max-width: 820px) {
+    .pmc-main {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: 0;
+        padding: 0;
+    }
+    .pmc-banner {
+        position: static;
+        max-width: 100%;
+        width: 100%;
+        bottom: auto;
+        text-align: left;
+    }
+    .pmc-card {
+        width: 100%;
+        max-width: 480px;
+        margin: 28px auto;
+        border-radius: var(--radius);
+    }
+    /* La foto de fondo se traslada al banner para no competir con el texto */
+    .pmc-main { background: #fff; }
+
+    /* El footer usa márgenes grandes fijos solo en desktop (1440); aquí se reducen */
+    .pmc-footer { padding: 14px clamp(16px, 4vw, 48px); }
+    .pmc-footer__brand { gap: 24px; }
+}
+
+/* Móvil */
+@media (max-width: 767px) {
+    .pmc-topbar { text-align: center; font-size: 12px; }
+    .pmc-header {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px 16px;
+        text-align: center;
+    }
+    .pmc-header__brand { flex-wrap: wrap; justify-content: center; gap: 8px 12px; }
+    .pmc-header__divider { display: none; }
+    .pmc-header__logo { height: 34px; }
+    .pmc-header__portal { flex-basis: 100%; text-align: center; }
+    .pmc-header__tagline { flex-basis: 100%; text-align: center; font-size: 13px; }
+    .pmc-locale { flex-basis: 100%; text-align: center; }
+
+    .pmc-card {
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 32px 20px calc(32px + env(safe-area-inset-bottom));
+    }
+    .pmc-btn { width: 100%; }
+
+    .pmc-footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+        padding: 14px 16px;
+    }
+    .pmc-footer__brand { flex-wrap: wrap; justify-content: center; gap: 8px 16px; }
+}

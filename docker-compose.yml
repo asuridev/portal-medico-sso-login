@@ -1,0 +1,21 @@
+# Keycloak 22 en modo desarrollo para validar el tema portal-medicos-cardif.
+# El tema se monta como volumen; la cache de temas/plantillas queda desactivada
+# para poder iterar recargando el navegador sin reiniciar el contenedor.
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.5
+    container_name: keycloak-portal-medicos
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME_STRICT: "false"
+      # Desactivar cache de temas para desarrollo
+      KC_SPI_THEME_CACHE_THEMES: "false"
+      KC_SPI_THEME_CACHE_TEMPLATES: "false"
+      KC_SPI_THEME_STATIC_MAX_AGE: "-1"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./themes/portal-medicos-cardif:/opt/keycloak/themes/portal-medicos-cardif:ro
