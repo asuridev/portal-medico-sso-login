@@ -1,9 +1,10 @@
-# Keycloak 22 en modo desarrollo para validar el tema portal-medicos-cardif.
-# El tema se monta como volumen; la cache de temas/plantillas queda desactivada
-# para poder iterar recargando el navegador sin reiniciar el contenedor.
+# Keycloak 18.0.2 en modo desarrollo para validar el tema portal-medicos-cardif.
+# Se prioriza 18.0.2 por ser el equivalente upstream de Red Hat SSO 7.6, la version
+# objetivo de produccion (ver CLAUDE.md). El tema se monta como volumen y la cache de
+# temas/plantillas queda desactivada para iterar recargando el navegador sin reiniciar.
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:22.0.5
+    image: quay.io/keycloak/keycloak:18.0.2
     container_name: keycloak-portal-medicos
     command: start-dev
     environment:

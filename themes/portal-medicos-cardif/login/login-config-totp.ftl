@@ -72,9 +72,10 @@
             <div class="pmc-otp" data-otp-input data-otp-target="totp" data-otp-length="6"
                  aria-invalid="<#if messagesPerField.existsError('totp')>true</#if>">
                 <#list 0..5 as i>
+                    <#-- Sin autofocus: en esta pantalla de configuración la tarjeta debe
+                         abrir arriba (título + pasos + QR visibles), no desplazada al input. -->
                     <input id="totp-${i}" class="pmc-otp__box" type="text" inputmode="numeric"
                            pattern="[0-9]*" maxlength="1" autocomplete="off"
-                           <#if i == 0>autofocus</#if>
                            aria-label="${msg('authenticatorCode')} ${i + 1}"
                            aria-invalid="<#if messagesPerField.existsError('totp')>true</#if>"/>
                 </#list>

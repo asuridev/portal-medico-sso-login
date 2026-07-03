@@ -484,3 +484,18 @@ a.pmc-link:hover { text-decoration: underline; }
     }
     .pmc-footer__brand { flex-wrap: wrap; justify-content: center; gap: 8px 16px; }
 }
+
+/* Desktop / dos columnas: el contenido largo (p. ej. configuración OTP con QR) hace
+   scroll DENTRO de la tarjeta, no en toda la página. Así la barra superior, el header y
+   el footer quedan siempre visibles y la experiencia se mantiene contenida en el componente.
+   Patrón flexbox: se fija la altura de la página a la ventana, se permite que el main se
+   contraiga (min-height:0) y la tarjeta se limita a esa altura con overflow propio. */
+@media (min-width: 821px) {
+    .pmc-page { height: 100vh; }
+    .pmc-main { flex: 1 1 auto; min-height: 0; }
+    .pmc-card {
+        max-height: 100%;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+}
