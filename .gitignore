@@ -1,0 +1,5 @@
+# Herramientas y artefactos de tooling local (no forman parte del tema)
+.agents/
+.claude/
+.playwright/
+.playwright-cli/

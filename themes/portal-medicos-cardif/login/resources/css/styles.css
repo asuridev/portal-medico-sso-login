@@ -255,6 +255,133 @@ a.pmc-link:hover { text-decoration: underline; }
 
 .pmc-card__info { margin-top: 18px; font-size: 14px; text-align: center; }
 
+/* Segundo factor OTP -------------------------------------------------------- */
+/* Casillas segmentadas del código: heredan focus/error del sistema de campos */
+.pmc-otp {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 6px 0 4px;
+}
+.pmc-otp__box {
+    width: 48px;
+    height: 56px;
+    min-width: 0;
+    padding: 0;
+    border: 1px solid var(--brand-border);
+    border-radius: 4px;
+    background: #fff;
+    color: #333;
+    text-align: center;
+    font-family: var(--font-head);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 56px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pmc-otp__box:focus {
+    outline: none;
+    border-color: var(--brand-green);
+    box-shadow: 0 0 0 2px rgba(0, 150, 64, .15);
+}
+.pmc-otp[aria-invalid="true"] .pmc-otp__box,
+.pmc-otp__box[aria-invalid="true"] { border-color: #c9302c; }
+
+/* Lista de credenciales OTP (solo cuando hay más de una) */
+.pmc-otp-cred {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+    text-align: left;
+}
+.pmc-otp-cred__radio { position: absolute; opacity: 0; pointer-events: none; }
+.pmc-otp-cred__label {
+    display: block;
+    padding: 10px 14px;
+    border: 1px solid var(--brand-border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    color: var(--brand-grey);
+    cursor: pointer;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.pmc-otp-cred__radio:checked + .pmc-otp-cred__label {
+    border-color: var(--brand-green);
+    box-shadow: 0 0 0 2px rgba(0, 150, 64, .15);
+    color: var(--brand-green);
+}
+.pmc-otp-cred__radio:focus-visible + .pmc-otp-cred__label {
+    border-color: var(--brand-green);
+}
+
+/* Configuración de OTP / escaneo de QR (login-config-totp) ------------------ */
+/* Esta pantalla lleva más contenido (QR + pasos + 2 campos): tarjeta más ancha.
+   min(480px,100%) evita desbordes en móvil, donde debe ser full-width. */
+.pmc-card:has(.pmc-totp-steps) { width: min(480px, 100%); }
+.pmc-card:has(.pmc-totp-steps) .pmc-card__subtitle { max-width: none; }
+
+.pmc-totp-steps {
+    margin: 0 0 22px;
+    padding-left: 1.25em;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--brand-grey);
+}
+.pmc-totp-steps > li { margin-bottom: 14px; }
+.pmc-totp-steps p { margin: 0 0 6px; }
+.pmc-totp__apps {
+    margin: 4px 0 0;
+    padding-left: 1.1em;
+    color: var(--brand-subtitle);
+}
+.pmc-totp__apps li { margin: 2px 0; }
+
+/* Código QR: centrado y enmarcado */
+.pmc-totp__qr-wrap { text-align: center; margin: 12px 0; }
+.pmc-totp__qr {
+    width: 190px;
+    height: auto;
+    max-width: 100%;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid var(--brand-border);
+    border-radius: var(--radius);
+}
+
+/* Modo manual: secreto copiable + detalles de política */
+.pmc-totp__secret {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #f5f5f5;
+    border: 1px solid var(--brand-border);
+    border-radius: 4px;
+    font-family: "Courier New", Consolas, monospace;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #333;
+    word-break: break-all;
+    user-select: all;
+}
+.pmc-totp__meta {
+    margin: 6px 0 0;
+    padding-left: 1.1em;
+    font-size: 13px;
+    color: var(--brand-subtitle);
+}
+
+.pmc-required { color: #c9302c; }
+
+/* Botón secundario (cancelar en acciones iniciadas por la app) */
+.pmc-btn--ghost {
+    background: transparent;
+    color: var(--brand-green);
+    border: 1px solid var(--brand-border);
+    margin-left: 10px;
+}
+.pmc-btn--ghost:hover { background: #f2f2f2; }
+
 /* Footer -------------------------------------------------------------------- */
 .pmc-footer {
     flex-shrink: 0;
@@ -339,6 +466,15 @@ a.pmc-link:hover { text-decoration: underline; }
         padding: 32px 20px calc(32px + env(safe-area-inset-bottom));
     }
     .pmc-btn { width: 100%; }
+
+    /* Casillas OTP fluidas para que las 6 quepan sin desbordar en móvil */
+    .pmc-otp { gap: clamp(4px, 2vw, 10px); }
+    .pmc-otp__box {
+        width: 100%;
+        height: 52px;
+        line-height: 52px;
+        font-size: 22px;
+    }
 
     .pmc-footer {
         flex-direction: column;
