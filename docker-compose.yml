@@ -2,11 +2,15 @@
 # Se prioriza 18.0.2 por ser el equivalente upstream de Red Hat SSO 7.6, la version
 # objetivo de produccion (ver CLAUDE.md). El tema se monta como volumen y la cache de
 # temas/plantillas queda desactivada para iterar recargando el navegador sin reiniciar.
+#
+# Al arrancar se importa automaticamente el realm 'test' con un usuario de prueba
+# (test / test123) desde keycloak/import/ (ver usuario-de-prueba.md). Asi el contenedor
+# siempre trae un usuario listo sin pasos manuales.
 services:
   keycloak:
     image: quay.io/keycloak/keycloak:18.0.2
     container_name: keycloak-portal-medicos
-    command: start-dev
+    command: start-dev --import-realm
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
@@ -20,3 +24,5 @@ services:
       - "8080:8080"
     volumes:
       - ./themes/portal-medicos-cardif:/opt/keycloak/themes/portal-medicos-cardif:ro
+      # Realm + usuario de prueba sembrados en el arranque (--import-realm)
+      - ./keycloak/import:/opt/keycloak/data/import:ro

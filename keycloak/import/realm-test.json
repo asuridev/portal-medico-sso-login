@@ -1,0 +1,22 @@
+{
+  "realm": "test",
+  "enabled": true,
+  "loginTheme": "portal-medicos-cardif",
+  "internationalizationEnabled": true,
+  "supportedLocales": ["es"],
+  "defaultLocale": "es",
+  "users": [
+    {
+      "username": "test",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "test@cardif.test",
+      "firstName": "Usuario",
+      "lastName": "Prueba",
+      "credentials": [
+        { "type": "password", "value": "test123", "temporary": false }
+      ],
+      "requiredActions": ["CONFIGURE_TOTP"]
+    }
+  ]
+}
