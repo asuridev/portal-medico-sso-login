@@ -11,9 +11,19 @@
         <li>
             <p>${msg("loginTotpStep1")}</p>
             <ul class="pmc-totp__apps">
-                <#list totp.supportedApplications as app>
-                    <li>${msg(app)}</li>
-                </#list>
+                <#-- Compatibilidad de versiones:
+                     - KC 22+: claves de mensaje en totp.supportedApplications  -> ${msg(app)}
+                     - RH-SSO 7.6 / KC 18: strings ya traducidos en totp.policy.supportedApplications -> ${app}
+                     Los parentesis en (...)?? cubren toda la expresion (no solo el ultimo paso). -->
+                <#if (totp.supportedApplications)??>
+                    <#list totp.supportedApplications as app>
+                        <li>${msg(app)}</li>
+                    </#list>
+                <#elseif (totp.policy.supportedApplications)??>
+                    <#list totp.policy.supportedApplications as app>
+                        <li>${app}</li>
+                    </#list>
+                </#if>
             </ul>
         </li>
 
@@ -91,13 +101,6 @@
                     ${kcSanitize(messagesPerField.get('userLabel'))?no_esc}
                 </span>
             </#if>
-        </div>
-
-        <div class="pmc-remember">
-            <label>
-                <input type="checkbox" id="logout-sessions" name="logout-sessions" value="on" checked/>
-                ${msg("logoutOtherSessions")}
-            </label>
         </div>
 
         <div class="pmc-form__buttons">
