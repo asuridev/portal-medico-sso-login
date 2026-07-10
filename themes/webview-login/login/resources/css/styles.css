@@ -1,0 +1,380 @@
+/* ==========================================================================
+   Webview Login - Tema de login Keycloak (estilo Banco de Occidente)
+   Interfaz neutra (gris) y minimalista. Basado en el Figma nodo 12286-171410.
+   ========================================================================== */
+
+:root {
+    --wl-title: #1b1c1e;          /* titulo "Bienvenido" */
+    --wl-subtitle: #424242;       /* subtitulo "Iniciar sesion" */
+    --wl-label: #555f83;          /* labels indigo-gris */
+    --wl-accent: #555f83;         /* foco / acento */
+    --wl-accent-ring: rgba(85, 95, 131, .18);
+    --wl-border: #adbae6;         /* borde de inputs */
+    --wl-border-idle: #d7d9e0;    /* borde neutro (casillas OTP en reposo) */
+    --wl-input-text: #33363d;
+    --wl-placeholder: #a7abb5;
+
+    --wl-btn-bg: #f4f4f4;         /* boton gris neutro */
+    --wl-btn-bg-hover: #e8e9ec;
+    --wl-btn-text: #5b5b5b;       /* oscurecido vs Figma (#707070) para AA 4.5:1 */
+
+    --wl-page-bg: #f2f3f5;        /* fondo gris neutro de la pagina */
+    --wl-card-bg: #ffffff;
+    --wl-muted: #6e7078;
+    --wl-error: #c9302c;
+
+    --wl-font: "Poppins", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    --radius-card: 10px;
+    --radius-ctl: 4px;
+}
+
+/* Reset ligero sobre el tema base ------------------------------------------ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+img { max-width: 100%; }
+
+/* Neutralizar el fondo oscuro por defecto del tema base (regla `.login-pf body`
+   con imagen keycloak-bg.png). Se usa !important por la mayor especificidad de la base. */
+html.login-pf, .login-pf body, .wl-body {
+    background: var(--wl-page-bg) !important;
+}
+
+.wl-body {
+    margin: 0;
+    font-family: var(--wl-font);
+    color: var(--wl-input-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+a.wl-link { color: var(--wl-accent); text-decoration: none; }
+a.wl-link:hover { text-decoration: underline; }
+a.wl-link:focus-visible {
+    outline: 2px solid var(--wl-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* Pagina: tarjeta centrada -------------------------------------------------- */
+.wl-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 32px 16px calc(32px + env(safe-area-inset-bottom));
+    overflow-x: hidden;
+}
+
+/* Tarjeta ------------------------------------------------------------------- */
+.wl-card {
+    width: 490px;
+    max-width: 100%;
+    background: var(--wl-card-bg);
+    border-radius: var(--radius-card);
+    box-shadow: 0 1px 3px rgba(51, 51, 51, .12), 0 8px 28px rgba(51, 51, 51, .08);
+    padding: 44px clamp(28px, 6vw, 70px);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Titulos */
+.wl-card__titles { text-align: center; }
+.wl-eyebrow {
+    margin: 0 0 4px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 20px;
+    color: var(--wl-title);
+}
+.wl-card__title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    color: var(--wl-subtitle);
+}
+.wl-card__subtitle {
+    margin: -14px 0 0;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--wl-muted);
+}
+
+/* Formulario ---------------------------------------------------------------- */
+.wl-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: left;
+}
+.wl-field { display: flex; flex-direction: column; gap: 8px; }
+.wl-field__label {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    color: var(--wl-label);
+}
+.wl-field__input {
+    width: 100%;
+    height: 40px;
+    padding: 9px 11px;
+    border: 1px solid var(--wl-border);
+    border-radius: var(--radius-ctl);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--wl-input-text);
+    background: #fff;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.wl-field__input::placeholder { color: var(--wl-placeholder); }
+.wl-field__input:hover { border-color: #8f9fd6; }
+.wl-field__input:focus {
+    outline: none;
+    border-color: var(--wl-accent);
+    box-shadow: 0 0 0 3px var(--wl-accent-ring);
+}
+.wl-field__input[aria-invalid="true"] { border-color: var(--wl-error); }
+.wl-field__input[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px rgba(201, 48, 44, .15);
+}
+
+/* Password con toggle de ojo */
+.wl-field__password { position: relative; }
+.wl-field__password .wl-field__input { padding-right: 44px; }
+.wl-field__toggle {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-ctl);
+    background: transparent;
+    color: #8a90a3;
+    cursor: pointer;
+    transition: color .15s ease, background .15s ease;
+}
+.wl-field__toggle:hover { color: var(--wl-accent); background: #f1f2f6; }
+.wl-field__toggle:focus-visible {
+    outline: 2px solid var(--wl-accent);
+    outline-offset: 1px;
+    color: var(--wl-accent);
+}
+.wl-field__toggle.is-visible { color: var(--wl-accent); }
+
+.wl-field__error {
+    color: var(--wl-error);
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.wl-remember { font-size: 14px; color: var(--wl-muted); }
+.wl-remember label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.wl-remember input { accent-color: var(--wl-accent); }
+.wl-forgot { font-size: 14px; }
+
+/* Boton --------------------------------------------------------------------- */
+.wl-form__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 4px;
+}
+.wl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 218px;
+    max-width: 100%;
+    min-height: 44px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: var(--radius-ctl);
+    background: var(--wl-btn-bg);
+    color: var(--wl-btn-text);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    cursor: pointer;
+    transition: background .15s ease, transform .06s ease, box-shadow .15s ease;
+}
+.wl-btn__icon { flex-shrink: 0; }
+.wl-btn:hover { background: var(--wl-btn-bg-hover); }
+.wl-btn:active { transform: scale(.99); }
+.wl-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--wl-accent-ring);
+}
+.wl-btn:disabled { opacity: .6; cursor: default; transform: none; }
+
+/* Boton secundario (cancelar en acciones iniciadas por la app) */
+.wl-btn--ghost {
+    background: transparent;
+    color: var(--wl-muted);
+    border: 1px solid var(--wl-border-idle);
+}
+.wl-btn--ghost:hover { background: #f4f5f7; }
+
+/* Alertas de Keycloak ------------------------------------------------------- */
+.wl-alert {
+    padding: 10px 14px;
+    border-radius: var(--radius-ctl);
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: left;
+}
+.wl-alert--error   { background: #fdecea; color: #b3261e; border: 1px solid #f5c6c2; }
+.wl-alert--warning { background: #fff8e1; color: #8a6d00; border: 1px solid #ffe6a0; }
+.wl-alert--success { background: #eafaf0; color: #1e7d43; border: 1px solid #b9e6c8; }
+.wl-alert--info    { background: #eef1fb; color: #3a4a8c; border: 1px solid #cdd6f5; }
+
+.wl-card__info { font-size: 14px; text-align: center; color: var(--wl-muted); }
+
+/* Segundo factor OTP -------------------------------------------------------- */
+.wl-otp {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 2px;
+}
+.wl-otp__box {
+    width: 100%;
+    height: 52px;
+    min-width: 0;
+    padding: 0;
+    border: 1px solid var(--wl-border-idle);
+    border-radius: var(--radius-ctl);
+    background: #fff;
+    color: var(--wl-input-text);
+    text-align: center;
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: 600;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.wl-otp__box:hover { border-color: #8f9fd6; }
+.wl-otp__box:focus {
+    outline: none;
+    border-color: var(--wl-accent);
+    box-shadow: 0 0 0 3px var(--wl-accent-ring);
+}
+.wl-otp[aria-invalid="true"] .wl-otp__box,
+.wl-otp__box[aria-invalid="true"] { border-color: var(--wl-error); }
+
+/* Lista de credenciales OTP (solo cuando hay mas de una) */
+.wl-otp-cred { display: flex; flex-direction: column; gap: 8px; text-align: left; }
+.wl-otp-cred__radio { position: absolute; opacity: 0; pointer-events: none; }
+.wl-otp-cred__label {
+    display: block;
+    padding: 10px 14px;
+    border: 1px solid var(--wl-border-idle);
+    border-radius: var(--radius-ctl);
+    font-size: 14px;
+    color: var(--wl-muted);
+    cursor: pointer;
+    transition: border-color .15s ease, box-shadow .15s ease, color .15s ease;
+}
+.wl-otp-cred__radio:checked + .wl-otp-cred__label {
+    border-color: var(--wl-accent);
+    box-shadow: 0 0 0 2px var(--wl-accent-ring);
+    color: var(--wl-accent);
+}
+.wl-otp-cred__radio:focus-visible + .wl-otp-cred__label { border-color: var(--wl-accent); }
+
+/* Configuracion de OTP / escaneo de QR (login-config-totp) ------------------ */
+.wl-totp-steps {
+    margin: 0;
+    padding-left: 1.25em;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--wl-input-text);
+}
+.wl-totp-steps > li { margin-bottom: 12px; }
+.wl-totp-steps p { margin: 0 0 6px; }
+.wl-totp__apps { margin: 4px 0 0; padding-left: 1.1em; color: var(--wl-muted); }
+.wl-totp__apps li { margin: 2px 0; }
+
+.wl-totp__qr-wrap { text-align: center; margin: 10px 0; }
+.wl-totp__qr {
+    width: 190px;
+    height: auto;
+    max-width: 100%;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid var(--wl-border-idle);
+    border-radius: var(--radius-ctl);
+}
+.wl-totp__secret {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #f5f6f8;
+    border: 1px solid var(--wl-border-idle);
+    border-radius: var(--radius-ctl);
+    font-family: "Courier New", Consolas, monospace;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: var(--wl-input-text);
+    word-break: break-all;
+    user-select: all;
+}
+.wl-totp__meta { margin: 6px 0 0; padding-left: 1.1em; font-size: 13px; color: var(--wl-muted); }
+.wl-required { color: var(--wl-error); }
+
+/* Selector de idioma discreto (fijo en la esquina superior derecha) --------- */
+.wl-locale {
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top));
+    right: max(16px, env(safe-area-inset-right));
+    z-index: 20;
+}
+.wl-locale select {
+    border: 1px solid var(--wl-border-idle);
+    border-radius: var(--radius-ctl);
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--wl-muted);
+    background: #fff;
+    cursor: pointer;
+}
+.wl-locale select:focus-visible {
+    outline: 2px solid var(--wl-accent);
+    outline-offset: 1px;
+}
+
+/* ==========================================================================
+   Responsivo
+   ========================================================================== */
+
+/* Movil: tarjeta a ancho completo, sin sombra pesada */
+@media (max-width: 480px) {
+    .wl-page { padding: 20px 14px calc(20px + env(safe-area-inset-bottom)); }
+    .wl-card {
+        width: 100%;
+        padding: 32px 22px;
+        border-radius: 8px;
+        box-shadow: 0 1px 2px rgba(51, 51, 51, .1);
+    }
+    .wl-btn { width: 100%; min-width: 0; }
+    .wl-otp { gap: clamp(5px, 2.2vw, 8px); }
+    .wl-otp__box { height: 50px; font-size: 20px; }
+}
+
+/* Respetar reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+    .wl-btn:active { transform: none; }
+}

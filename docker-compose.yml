@@ -24,5 +24,6 @@ services:
       - "8080:8080"
     volumes:
       - ./themes/portal-medicos-cardif:/opt/keycloak/themes/portal-medicos-cardif:ro
+      - ./themes/webview-login:/opt/keycloak/themes/webview-login:ro
       # Realm + usuario de prueba sembrados en el arranque (--import-realm)
       - ./keycloak/import:/opt/keycloak/data/import:ro

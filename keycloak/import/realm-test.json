@@ -1,7 +1,7 @@
 {
   "realm": "test",
   "enabled": true,
-  "loginTheme": "portal-medicos-cardif",
+  "loginTheme": "webview-login",
   "internationalizationEnabled": true,
   "supportedLocales": ["es", "en"],
   "defaultLocale": "es",
