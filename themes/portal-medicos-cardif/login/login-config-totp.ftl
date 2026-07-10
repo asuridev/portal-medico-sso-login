@@ -1,5 +1,5 @@
 <#import "template.ftl" as layout>
-<@layout.registrationLayout displayMessage=!messagesPerField.existsError('totp','userLabel'); section>
+<@layout.registrationLayout displayMessage=!messagesPerField.existsError('totp'); section>
     <#if section = "header">
         ${msg("loginTotpTitle")}
     <#elseif section = "form">
@@ -59,7 +59,6 @@
 
         <li>
             <p>${msg("loginTotpStep3")}</p>
-            <p>${msg("loginTotpStep3DeviceName")}</p>
         </li>
     </ol>
 
@@ -89,17 +88,6 @@
             <#if messagesPerField.existsError('totp')>
                 <span id="input-error-otp-code" class="pmc-field__error" aria-live="polite">
                     ${kcSanitize(messagesPerField.get('totp'))?no_esc}
-                </span>
-            </#if>
-        </div>
-
-        <div class="pmc-field">
-            <label for="userLabel" class="pmc-field__label">${msg("loginTotpDeviceName")} <#if totp.otpCredentials?size gte 1><span class="pmc-required">*</span></#if></label>
-            <input type="text" id="userLabel" name="userLabel" class="pmc-field__input" autocomplete="off"
-                   aria-invalid="<#if messagesPerField.existsError('userLabel')>true</#if>"/>
-            <#if messagesPerField.existsError('userLabel')>
-                <span id="input-error-otp-label" class="pmc-field__error" aria-live="polite">
-                    ${kcSanitize(messagesPerField.get('userLabel'))?no_esc}
                 </span>
             </#if>
         </div>
